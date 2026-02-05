@@ -1,0 +1,23 @@
+export const products = [
+  {name:"Multicolor Muffler",price:699,img:"/1.jpg"},
+  {name:"Alphabet Keychain",price:59,img:"/b1.jpg"},
+  {name:"Lavender Hairclips",price:75,img:"/3.jpg"},
+  {name:"Flower Keychains",price:49,img:"/7.jpg"},
+  {name:"Flower Keychains",price:49,img:"/5.jpg"},
+  {name:"Flower Keychains",price:49,img:"/9.jpg"},
+  {name:"Flower Keychains",price:49,img:"/i11.jpg"},
+  {name:"Flower Keychains",price:49,img:"/b8.jpg"},
+  {name:"Flower Keychains",price:49,img:"/i9.jpg"},
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+  {name:"Flower Keychains",price:49,img:"/i8.jpg"},  
+];
