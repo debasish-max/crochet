@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import CartItem from "../components/CartItem";
+import { ShoppingBag } from "lucide-react";
 
 export default function Cart({ setToast }) {
   const { cart, total, clearCart } = useCart();
@@ -38,7 +39,7 @@ export default function Cart({ setToast }) {
 
   return (
     <section className="max-w-xl mx-auto px-4 py-12">
-      <h2 className="text-2xl font-bold mb-4">Your Wheels Box</h2>
+      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">Your Cart<span className=" inline-flex items-center "><ShoppingBag/></span></h2>
 
       {cart.map((item) => (
         <CartItem key={item.name} item={item} />
