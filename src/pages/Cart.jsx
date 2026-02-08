@@ -1,28 +1,39 @@
+import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import CartItem from "../components/CartItem";
 
 export default function Cart({ setToast }) {
   const { cart, total, clearCart } = useCart();
   const [customerName, setCustomerName] = useState("");
-const [address, setAddress] = useState("");
-
+  const [address, setAddress] = useState("");
 
   if (cart.length === 0) {
     return <p className="text-center mt-20">Your cart is empty.</p>;
   }
 
   const sendOrder = () => {
-    let msg = "New Order\n\n";
-    cart.forEach((i) => (msg += `${i.name} x ${i.qty}\n`));
+    if (!customerName || !address) {
+      setToast("Please enter name and address");
+      setTimeout(() => setToast(""), 2000);
+      return;
+    }
+
+    let msg = `New Order\n\nName: ${customerName}\nAddress: ${address}\n\n`;
+
+    cart.forEach((i) => {
+      msg += `${i.name} x ${i.qty}\n`;
+    });
+
     msg += `\nTotal: ₹${total}`;
 
-    clearCart();
-    setToast("Order placed. Redirecting...");
-    setTimeout(() => setToast(""), 2000);
-
     window.open(
-      `https://wa.me/916901188826?text=${encodeURIComponent(msg)}`
+      `https://wa.me/916900195552?text=${encodeURIComponent(msg)}`,
+      "_blank"
     );
+
+    clearCart();
+    setToast("Order placed successfully");
+    setTimeout(() => setToast(""), 2000);
   };
 
   return (
@@ -34,6 +45,22 @@ const [address, setAddress] = useState("");
       ))}
 
       <p className="font-bold mt-4">Total: ₹{total}</p>
+      <span className="block text-sm font-semibold text-orange-400 mt-1"><span className="font-bold text-red-700">*</span>Delivery Charges Applicable</span>
+
+      <input
+        type="text"
+        placeholder="Your Name"
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}
+        className="mt-4 w-full border p-2 rounded"
+      />
+
+      <textarea
+        placeholder="Delivery Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        className="mt-3 w-full border p-2 rounded"
+      />
 
       <button
         onClick={sendOrder}
