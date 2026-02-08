@@ -11,10 +11,13 @@ export default function ProductCard({ product, setToast }) {
 
   return (
     <div className="bg-white rounded-xl p-3 shadow">
-      <img
-        src={product.img}
-        className="h-32 w-full object-cover rounded-lg"
-      />
+      <div className="w-full aspect-[4/3] overflow-hidden rounded-lg">
+        <img
+          src={product.img}
+          alt={product.name}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <h3 className="mt-1 text-sm font-semibold leading-tight">
         {product.name}
