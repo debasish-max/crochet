@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
-import { 
-  Package, Plus, Trash2, Image as ImageIcon, 
+import {
+  Package, Plus, Trash2, Image as ImageIcon,
   Tag, Info, Loader2, ArrowLeft, Upload, X, Search
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -23,7 +23,7 @@ export default function AdminProducts({ setToast }) {
   const [form, setForm] = useState({
     name: "",
     price: "",
-    description: "Handcrafted with premium yarn",
+    description: "",
   });
 
   useEffect(() => {
@@ -52,8 +52,8 @@ export default function AdminProducts({ setToast }) {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-         setToast("File too large. Max 2MB.");
-         return;
+        setToast("File too large. Max 2MB.");
+        return;
       }
       setImageFile(file);
       const reader = new FileReader();
@@ -179,7 +179,7 @@ export default function AdminProducts({ setToast }) {
 
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input 
+            <input
               type="text"
               placeholder="Search products..."
               value={searchTerm}
@@ -197,15 +197,15 @@ export default function AdminProducts({ setToast }) {
                 <Plus className="text-brand" size={20} />
                 Add New Product
               </h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Product Name</label>
-                  <input 
+                  <input
                     type="text"
                     required
                     value={form.name}
-                    onChange={(e) => setForm({...form, name: e.target.value})}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="e.g. Multicolor Muffler"
                     className="w-full px-4 py-3 bg-gray-50 border-transparent rounded-xl focus:ring-4 focus:ring-brand/10 focus:bg-white focus:border-brand transition-all outline-none font-medium"
                   />
@@ -213,11 +213,11 @@ export default function AdminProducts({ setToast }) {
 
                 <div className="space-y-1">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Price (₹)</label>
-                  <input 
+                  <input
                     type="number"
                     required
                     value={form.price}
-                    onChange={(e) => setForm({...form, price: e.target.value})}
+                    onChange={(e) => setForm({ ...form, price: e.target.value })}
                     placeholder="699"
                     className="w-full px-4 py-3 bg-gray-50 border-transparent rounded-xl focus:ring-4 focus:ring-brand/10 focus:bg-white focus:border-brand transition-all outline-none font-medium"
                   />
@@ -225,9 +225,9 @@ export default function AdminProducts({ setToast }) {
 
                 <div className="space-y-1">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Short Description</label>
-                  <textarea 
+                  <textarea
                     value={form.description}
-                    onChange={(e) => setForm({...form, description: e.target.value})}
+                    onChange={(e) => setForm({ ...form, description: e.target.value })}
                     placeholder="Handcrafted with premium yarn"
                     rows="2"
                     className="w-full px-4 py-3 bg-gray-50 border-transparent rounded-xl focus:ring-4 focus:ring-brand/10 focus:bg-white focus:border-brand transition-all outline-none font-medium resize-none"
@@ -240,9 +240,9 @@ export default function AdminProducts({ setToast }) {
                     {imagePreview ? (
                       <div className="relative rounded-2xl overflow-hidden aspect-video border-2 border-brand/20">
                         <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                        <button 
+                        <button
                           type="button"
-                          onClick={() => {setImageFile(null); setImagePreview(null);}}
+                          onClick={() => { setImageFile(null); setImagePreview(null); }}
                           className="absolute top-2 right-2 p-1.5 bg-white/90 text-red-500 rounded-full hover:bg-red-500 hover:text-white transition-all shadow-md"
                         >
                           <X size={16} />
@@ -253,10 +253,10 @@ export default function AdminProducts({ setToast }) {
                         <Upload className="text-gray-400 mb-2 group-hover:text-brand transition-colors" size={24} />
                         <p className="text-xs font-bold text-gray-500 group-hover:text-brand transition-colors">Select from device</p>
                         <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-tighter">Max 2MB (JPG, PNG)</p>
-                        <input 
-                          type="file" 
+                        <input
+                          type="file"
                           accept="image/*"
-                          className="hidden" 
+                          className="hidden"
                           onChange={handleFileChange}
                         />
                       </label>
@@ -264,7 +264,7 @@ export default function AdminProducts({ setToast }) {
                   </div>
                 </div>
 
-                <button 
+                <button
                   type="submit"
                   disabled={isSubmitting}
                   className="w-full bg-brand text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-brand/20 hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
@@ -280,57 +280,57 @@ export default function AdminProducts({ setToast }) {
           <div className="lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {products
-                .filter(p => 
-                  p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                .filter(p =>
+                  p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                   p.description.toLowerCase().includes(searchTerm.toLowerCase())
                 )
                 .map((product) => (
-                <div key={product.id} className="bg-white p-4 rounded-3xl border border-orange-50 shadow-sm flex gap-4 group hover:shadow-md transition-all">
-                  <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-50 flex-shrink-0">
-                    <img src={product.img} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  </div>
-                  <div className="flex-1 flex flex-col justify-between py-1">
-                    <div>
-                      <h3 className="font-bold text-gray-800 line-clamp-1">{product.name}</h3>
-                      <p className="text-brand font-black">₹{product.price}</p>
-                      <p className="text-xs text-gray-400 line-clamp-1 italic">{product.description}</p>
+                  <div key={product.id} className="bg-white p-4 rounded-3xl border border-orange-50 shadow-sm flex gap-4 group hover:shadow-md transition-all">
+                    <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-50 flex-shrink-0">
+                      <img src={product.img} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     </div>
-                    <button 
-                      onClick={() => initiateDelete(product.id, product.img)}
-                      className="flex items-center gap-1 text-[10px] font-bold text-red-500 hover:text-red-700 uppercase tracking-widest mt-2"
-                    >
-                      <Trash2 size={12} /> Delete
-                    </button>
+                    <div className="flex-1 flex flex-col justify-between py-1">
+                      <div>
+                        <h3 className="font-bold text-gray-800 line-clamp-1">{product.name}</h3>
+                        <p className="text-brand font-black">₹{product.price}</p>
+                        <p className="text-xs text-gray-400 line-clamp-1 italic">{product.description}</p>
+                      </div>
+                      <button
+                        onClick={() => initiateDelete(product.id, product.img)}
+                        className="flex items-center gap-1 text-[10px] font-bold text-red-500 hover:text-red-700 uppercase tracking-widest mt-2"
+                      >
+                        <Trash2 size={12} /> Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              {products.filter(p => 
-                p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+              {products.filter(p =>
+                p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 p.description.toLowerCase().includes(searchTerm.toLowerCase())
               ).length === 0 && !loading && (
-                <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-orange-100">
-                  <Package className="mx-auto mb-4 text-gray-200" size={64} />
-                  <h3 className="text-xl font-bold text-gray-400">
-                    {searchTerm ? "No matching products" : "No products found"}
-                  </h3>
-                  <p className="text-gray-400">
-                    {searchTerm ? "Try a different search term" : "Add your first product to get started"}
-                  </p>
-                </div>
-              )}
+                  <div className="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-orange-100">
+                    <Package className="mx-auto mb-4 text-gray-200" size={64} />
+                    <h3 className="text-xl font-bold text-gray-400">
+                      {searchTerm ? "No matching products" : "No products found"}
+                    </h3>
+                    <p className="text-gray-400">
+                      {searchTerm ? "Try a different search term" : "Add your first product to get started"}
+                    </p>
+                  </div>
+                )}
 
               {loading && (
-                 <div className="col-span-full py-20 flex justify-center">
-                    <Loader2 className="animate-spin text-brand" size={40} />
-                 </div>
+                <div className="col-span-full py-20 flex justify-center">
+                  <Loader2 className="animate-spin text-brand" size={40} />
+                </div>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
