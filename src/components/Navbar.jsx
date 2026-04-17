@@ -36,11 +36,11 @@ export default function Navbar() {
     try {
       setIsProfileOpen(false);
       setIsMenuOpen(false);
-      
+
       // Attempt sign out but don't let it hang the UI
       const signOutPromise = supabase.auth.signOut();
       const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       await Promise.race([signOutPromise, timeoutPromise]);
     } catch (error) {
       console.error("Error during sign out:", error);
@@ -49,7 +49,7 @@ export default function Navbar() {
       try {
         localStorage.clear();
         sessionStorage.clear();
-      } catch (e) {}
+      } catch (e) { }
 
       // Force clean redirect to login - this will trigger a fresh AuthContext state
       window.location.href = "/login";
@@ -67,9 +67,28 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 font-semibold text-gray-600">
+          {isAdmin && (
+            <>
+              <Link
+                to="/admin"
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-colors ${location.pathname === '/admin' ? 'bg-brand/10 text-brand' : 'hover:bg-gray-100'}`}
+              >
+                <LayoutDashboard size={20} />
+                <span>Dashboard</span>
+              </Link>
+              <Link
+                to="/admin/products"
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-colors ${location.pathname === '/admin/products' ? 'bg-brand/10 text-brand' : 'hover:bg-gray-100'}`}
+              >
+                <Plus size={20} />
+                <span>Add Products</span>
+              </Link>
+            </>
+          )}
+
           {!isAdmin && (
-            <Link 
-              to="/cart" 
+            <Link
+              to="/cart"
               className={`relative flex items-center gap-2 px-4 py-2 rounded-xl transition-colors ${location.pathname === '/cart' ? 'bg-brand/10 text-brand' : 'hover:bg-gray-100'}`}
             >
               <ShoppingCart size={20} />
@@ -84,18 +103,18 @@ export default function Navbar() {
 
           {/* Orders Link - Visible for both but different paths */}
           {user && (
-            <Link 
-              to={isAdmin ? "/admin/orders" : "/orders"} 
+            <Link
+              to={isAdmin ? "/admin/orders" : "/orders"}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-colors ${location.pathname.includes('/orders') ? 'bg-brand/10 text-brand' : 'hover:bg-gray-100'}`}
             >
               <Package size={20} />
               <span>Orders</span>
             </Link>
           )}
-          
+
           {/* Profile Dropdown */}
           <div className="relative" ref={profileRef}>
-            <button 
+            <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className={`flex items-center gap-2 p-1.5 pr-3 rounded-full transition-all border ${isProfileOpen ? 'border-brand bg-brand/5 ring-4 ring-brand/5' : 'border-gray-200 hover:border-brand/50 hover:bg-gray-50'}`}
             >
@@ -113,9 +132,7 @@ export default function Navbar() {
                       <p className="text-[10px] font-black uppercase tracking-widest text-orange-400">Account Type</p>
                       <p className="text-sm font-bold text-gray-700 capitalize">{role}</p>
                     </div>
-                    {isAdmin && <DropdownItem to="/admin" icon={<LayoutDashboard size={18} />} label="Dashboard" />}
-                    {isAdmin && <DropdownItem to="/admin/products" icon={<Plus size={18} />} label="Products" />}
-                    <button 
+                    <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
                     >
@@ -146,7 +163,7 @@ export default function Navbar() {
               )}
             </Link>
           )}
-          <button 
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`p-2.5 rounded-xl transition-all ${isMenuOpen ? 'bg-brand text-white' : 'bg-gray-50 text-gray-800 hover:bg-gray-100'}`}
           >
@@ -160,15 +177,23 @@ export default function Navbar() {
         <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-orange-100 shadow-xl p-4 space-y-2 animate-in slide-in-from-top duration-200 origin-top">
           {user ? (
             <>
+              <div className="px-4 py-3 mb-2 border-b border-orange-50 bg-orange-50/30 rounded-2xl">
+                <p className="text-[10px] font-black uppercase tracking-widest text-orange-400">Account Type</p>
+                <p className="text-sm font-bold text-gray-700 capitalize">{role}</p>
+              </div>
+
               {isAdmin && <MobileItem to="/admin" icon={<LayoutDashboard size={20} />} label="Dashboard" active={location.pathname === '/admin'} />}
-              <MobileItem 
-                to={isAdmin ? "/admin/orders" : "/orders"} 
-                icon={<Package size={20} />} 
-                label="Orders" 
-                active={location.pathname.includes('/orders')} 
+
+              <MobileItem
+                to={isAdmin ? "/admin/orders" : "/orders"}
+                icon={<Package size={20} />}
+                label="Orders"
+                active={location.pathname.includes('/orders')}
               />
+
+              {isAdmin && <MobileItem to="/admin/products" icon={<Plus size={20} />} label="Add Products" active={location.pathname === '/admin/products'} />}
               <div className="pt-2 mt-2 border-t border-orange-50">
-                <button 
+                <button
                   onClick={handleLogout}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl text-red-500 font-bold hover:bg-red-50 transition-colors"
                 >
@@ -184,9 +209,9 @@ export default function Navbar() {
             </>
           )}
           {!isAdmin && (
-             <div className="border-t border-orange-50 pt-2 mt-2">
-                <MobileItem to="/" icon={<LayoutDashboard size={20} />} label="Back to Shop" />
-             </div>
+            <div className="border-t border-orange-50 pt-2 mt-2">
+              <MobileItem to="/" icon={<LayoutDashboard size={20} />} label="Back to Shop" />
+            </div>
           )}
         </div>
       )}

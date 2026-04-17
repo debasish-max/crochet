@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import {
     TrendingUp, ShoppingBag, DollarSign, Clock,
-    LayoutDashboard, Package, LogOut
+    LayoutDashboard, Package, LogOut, ArrowRight, Plus
 } from 'lucide-react';
 import { startOfDay, startOfWeek, startOfMonth, isAfter, parseISO } from 'date-fns';
 
@@ -116,21 +116,29 @@ export default function AdminDashboard({ setToast }) {
 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <Link to="/admin/orders" className="group bg-white p-8 rounded-[2.5rem] shadow-sm border border-orange-50/50 flex flex-col items-center justify-center text-center py-12 hover:shadow-xl hover:shadow-brand/5 transition-all">
+                    <div className="group bg-white p-8 rounded-[2.5rem] shadow-sm border border-orange-50/50 flex flex-col items-center justify-center text-center py-12 hover:shadow-xl hover:shadow-brand/5 transition-all">
                         <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <Package size={40} className="text-brand" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-800 mb-2">Order Management</h2>
                         <p className="text-gray-500 max-w-sm">View, confirm, and track all customer orders in one place.</p>
-                    </Link>
+                        <Link to="/admin/orders" className="mt-8 px-8 py-3 bg-brand text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-gray-900 transition-all shadow-lg shadow-brand/20 active:scale-95">
+                            Go to Orders
+                            <ArrowRight size={20} />
+                        </Link>
+                    </div>
 
-                    <Link to="/admin/products" className="group bg-white p-8 rounded-[2.5rem] shadow-sm border border-orange-50/50 flex flex-col items-center justify-center text-center py-12 hover:shadow-xl hover:shadow-brand/5 transition-all">
+                    <div className="group bg-white p-8 rounded-[2.5rem] shadow-sm border border-orange-50/50 flex flex-col items-center justify-center text-center py-12 hover:shadow-xl hover:shadow-brand/5 transition-all">
                         <div className="w-20 h-20 bg-brand/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <ShoppingBag size={40} className="text-brand" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-800 mb-2">Product Management</h2>
                         <p className="text-gray-500 max-w-sm">Add new items, update prices, and manage your crochet collection.</p>
-                    </Link>
+                        <Link to="/admin/products" className="mt-8 px-8 py-3 bg-brand text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-gray-900 transition-all shadow-lg shadow-brand/20 active:scale-95">
+                            Add Products
+                            <Plus size={20} />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
