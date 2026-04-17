@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ShoppingBag, ArrowRight } from "lucide-react";
 
-const slides = ["/5.jpg", "/7.jpg", "/3.jpg", "/b8.jpg"];
+const slides = ["/1.jpg", "/2.jpg", "/3.jpg", "/4.jpg", "/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg", "/9.jpg", "/10.jpg", "/11.jpg"];
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
